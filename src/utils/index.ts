@@ -1,6 +1,10 @@
 import mammoth from "mammoth";
-
-export const convertFileToHTML = (event: Event): Promise<string> => {
+import { asBlob as htmlDocxJSasBlob } from "html-docx-js-typescript/dist/index";
+import { saveAs } from "file-saver";
+/**
+ * @description 将一个.docx文件转换成HTML字符串
+ */
+export const convertWordToHTML = (event: Event): Promise<string> => {
   const file = (event.target as HTMLInputElement).files![0];
   const reader = new FileReader();
   reader.readAsArrayBuffer(file);
@@ -27,4 +31,12 @@ const displayHtmlStr = (result: any) => {
     .replace(/<td>/g, '<td style="border: 1px solid pink;">')
     .replace(/<p>/g, '<p style="text-indent: 2em;">');
   return html;
+};
+export const exportHTMLToWord = (htmlStr: string, fileName?: string) => {
+  htmlDocxJSasBlob(htmlStr).then((blob) => {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = URL.createObjectURL(blob as Blob);
+    downloadLink.download = fileName || "未知.docx";
+    downloadLink.click();
+  });
 };

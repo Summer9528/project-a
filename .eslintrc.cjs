@@ -16,5 +16,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'off', // 允许 any 类型
     '@typescript-eslint/ban-types': 'off',
+    // 允许有未使用的变量存在
+    '@typescript-eslint/no-unused-vars': 'off',
   },
 }
